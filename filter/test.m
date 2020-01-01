@@ -5,7 +5,7 @@ stepTime = 0;
 
 figure(1);
 hold off;
-for i=[0, 2, 10]
+for i=[0, 2, 20]
     [~, state] = LowPass2(3, 0.707);
     yl=[];
     ytl=[];

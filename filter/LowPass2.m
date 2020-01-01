@@ -11,19 +11,26 @@ if (nargin == 3)
         %This handles changing time step, but not really.
         %It is still assumed that the tim step between n -> n-1 -> n-2 is
         %constant, which it doesnt have to be.
-        %Kind of work, but needs further work. 
+        %Kind of work, but needs further work.
+        %Handled now by interpolating xm2/ym2 to time - 2*dt
+        %Can still create strange results when time steps vary alot.
+        %Especially when the time stepn suddenly increases.
         dt = time - state.oldTime;
+        dt2inv = 1/(state.oldTime - state.oldOldTime);
         w = state.w;
         K=w/tan(w*dt/2);
         %K=2/dt;
         
         num = state.a0*K^2 + state.a1*K + state.a2;
         
+        xm2 = state.xm1 - dt * (state.xm1 - state.xm2)*dt2inv;
+        ym2 = state.ym1 - dt * (state.ym1 - state.ym2)*dt2inv;
+        
         y = x +...
             (2*1)*state.xm1 +...
-            1*state.xm2 +...
+            1*xm2 +...
             -(2 * state.a2 - 2*state.a0 * K^2) * state.ym1 +...
-            -(state.a0*K^2 - state.a1*K + state.a2)*state.ym2;
+            -(state.a0*K^2 - state.a1*K + state.a2)*ym2;
         y = y/num;
         
         state.ym2 = state.ym1;
@@ -36,8 +43,10 @@ if (nargin == 3)
         state.ym2 = y;
         state.xm1 = x;
         state.xm2 = x;
-        state.firstSample = false;
+        state.firstSample = false;        
+        state.oldTime = time - 1;
     end
+    state.oldOldTime = state.oldTime;
     state.oldTime = time;
     
 elseif (nargin == 2)
