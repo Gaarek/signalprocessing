@@ -14,7 +14,7 @@ if (nargin == 3)
         %Kind of work, but needs further work.
         %Handled now by interpolating xm2/ym2 to time - 2*dt
         %Can still create strange results when time steps vary alot.
-        %Especially when the time stepn suddenly increases.
+        %Especially when the time step suddenly increases.
         dt = time - state.oldTime;
         dt2inv = 1/(state.oldTime - state.oldOldTime);
         w = state.w;
