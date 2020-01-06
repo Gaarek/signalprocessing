@@ -41,8 +41,9 @@ if (nargin == 3)
             ym2 = state.ym2;
             xm1 = x - dtOld * (x - state.xm1)/dt;
             ym1 = state.ym2 + (dt + dtOld)/2 * (state.ym1 - state.ym2)/dtOld;
+            dt = dtOld;
         end
-        w = state.w/1.4;
+        w = state.w;
         K=w/tan(w*dt/2);
         %K=2/dt;
         

@@ -24,7 +24,7 @@ for i=[0, 2, 30]
         yl(end+1) = y;
         ytl(end+1) = t;
         
-        t = t + dt * (1 + i * rand(1,1));
+        t = t + dt * (1 + x*i * rand(1,1));
     end
     plot(ytl, xl, 'LineWidth', 1);
     hold all;
